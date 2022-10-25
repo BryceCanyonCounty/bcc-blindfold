@@ -16,4 +16,10 @@ client_script {
     'client/utils.lua'
 }
 
+ui_page 'ui/index.html'
+
+files {
+    'ui/**/*'
+}
+
 version '1.0.0'
