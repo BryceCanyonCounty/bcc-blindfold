@@ -1,0 +1,39 @@
+:root {
+  --backgroundcolor: #4d4d4d;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+#app {
+  touch-action: manipulation;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
+}
+
+.wrapper {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999999;
+
+  background-size: cover;
+  background-image: url('nui://bcc-blindfold/ui/assets/blindfold.jpg');
+  background-repeat: repeat;
+  background-position: center;
+  filter: brightness(20%);
+  filter: blur(60%);
+  opacity: 0.99;
+}
