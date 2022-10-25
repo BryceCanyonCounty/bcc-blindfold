@@ -16,7 +16,6 @@ const { createApp } = Vue
         onMessage(event) {
             if (event.data.type === 'toggle') {
               this.visible = event.data.visible
-              console.log(this.visible)
             }
         }
     }
