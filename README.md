@@ -3,12 +3,28 @@
 
 ## Features
 - Blindfold the nearest player
-- Blindfold image
+- Blindfold yourself!
+- Commands to blindfold
+- Item to blindfold
+- Break out of blindfold change
+- features are all configurable!
 
-### Install
+## Commands
+* /blindfold
+  - adds blindfold to nearest player
+* /blindfoldme
+  - adds blindfold to yourself
+* /unblindfold
+  - removes blindfold from nearest player
+* /unblindfoldme
+  - removed blindfold from yourself (if you placed it on yourself)
+
+## Install
 * Download this repo
 * Copy and paste `bcc-blindfold` folder to `resources/bcc-blindfold`
 * Add `ensure bcc-blindfold` to your `server.cfg` file`server.cfg` file
+* _Optional (If you use item):_ Add sql item from items/blindfold.sql
+* _Optional (If you use item):_ Add image to vorp_inventory from items/blindfold.png
 * Now you are ready to go!
 
 
@@ -19,4 +35,4 @@
 - [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases)
 
 ## Coming Soon!
-- Randomized chance to break out of the blindfold
+- api's for other scripts to use (police, criminal, etc)

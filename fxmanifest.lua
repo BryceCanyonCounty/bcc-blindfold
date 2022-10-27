@@ -16,6 +16,10 @@ client_script {
     'client/utils.lua'
 }
 
+shared_script {
+    'config.lua'
+}
+
 ui_page 'ui/index.html'
 
 files {

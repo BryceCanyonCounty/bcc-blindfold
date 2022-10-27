@@ -28,12 +28,57 @@ body {
   bottom: 0;
   right: 0;
   z-index: 999999;
+}
 
-  background-size: cover;
+.wrapper::before {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   background-image: url('nui://bcc-blindfold/ui/assets/blindfold.jpg');
   background-repeat: repeat;
   background-position: center;
+  background-size: cover;
+
   filter: brightness(20%);
   filter: blur(60%);
   opacity: 0.99;
+}
+
+
+.escape {
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  opacity: 1;
+  color: #fff;
+} 
+
+.escape-text {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.escape-button, .escape-button-pressed {
+  border-radius: 6px;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  display: inline-block;
+}
+
+.escape-button {
+  background-color: #fff;
+  color: #000;
+}
+
+.escape-button-pressed {
+  background-color: #707070;
+  color: #444444;
 }

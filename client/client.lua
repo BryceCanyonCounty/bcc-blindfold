@@ -1,19 +1,37 @@
-RegisterNetEvent('bccblindfold:togblindfold')
-AddEventHandler('bccblindfold:togblindfold', function(playerSex, comps, toggle)
-    local playerPed = PlayerPedId()
+local active = false
 
-    local pcomps = json.decode(comps)
+local selfblinded = false
+
+if Config.escape.active then
+    Citizen.CreateThread(function()
+        active = true
+        while true do
+            Wait(0)
+            if active then
+                if IsControlJustPressed(0, Config.escape.button) then
+                    SendNUIMessage({
+                        type = 'escapekeypress',
+                        state = true
+                    })
     
-    if toggle == true then
-        if playerSex == "male" then
-            pcomps['EyeWear'] = 0x10464C0B
-        else
-            pcomps['EyeWear'] = 0xDA872AED
+                    local rando = math.random(0, 5000)
+    
+                    if Config.escape.lotonumb[rando] then
+                        TriggerServerEvent('bccblindfold:toggleblindfold', 'self', false)
+                        active = false
+                    end
+                end
+    
+                if IsControlJustReleased(0, Config.escape.button) then
+                    SendNUIMessage({
+                        type = 'escapekeypress',
+                        state = false
+                    })
+                end
+            end
         end
-    end
-
-    SetWearable(pcomps, playerSex, playerPed, toggle)
-end)
+    end)
+end
 
 function SetWearable(pcomps, playerSex, playerPed, toggle)
     for k, v in pairs(pcomps) do
@@ -48,7 +66,8 @@ function SetWearable(pcomps, playerSex, playerPed, toggle)
 	end
     SendNUIMessage({
         type = 'toggle',
-        visible = toggle
+        visible = toggle,
+        config = Config
     })
 end
 
@@ -56,7 +75,8 @@ function GetClosestPlayer()
     local players, closestDistance, closestPlayer = GetActivePlayers(), -1, -1
     local playerPed, playerId = PlayerPedId(), PlayerId()
     local coords, usePlayerPed = coords, false
-    
+    local closest = {}
+
     if coords then
         coords = vector3(coords.x, coords.y, coords.z)
     else
@@ -73,28 +93,71 @@ function GetClosestPlayer()
             local distance = #(coords - targetCoords)
 
             if closestDistance == -1 or closestDistance > distance then
-                closestPlayer = players[i]
+                closest = {
+                    client = players[i],
+                    server = GetPlayerServerId(players[i])
+                }
+
                 closestDistance = distance
             end
         end
     end
-    return closestPlayer, closestDistance
+    return closest, closestDistance
 end
 
-RegisterCommand("blindfold", function(source, args, rawCommand)
-    local closestPlayer, closestDistance = GetClosestPlayer()
-    if closestPlayer ~= -1 and closestDistance <= 3.0 then
-        TriggerServerEvent('bccblindfold:toggleblindfold', closestPlayer, true)
+RegisterNetEvent('bccblindfold:togblindfold')
+AddEventHandler('bccblindfold:togblindfold', function(playerSex, comps, toggle)
+    local playerPed = PlayerPedId()
+
+    local pcomps = json.decode(comps)
+    
+    if toggle == true then
+        if playerSex == "male" then
+            pcomps['EyeWear'] = 0x10464C0B
+        else
+            pcomps['EyeWear'] = 0xDA872AED
+        end
     end
-end, false)
+
+    active = true
+    SetWearable(pcomps, playerSex, playerPed, toggle)
+end)
+
+RegisterNetEvent('bccblindfold:blindfolditem')
+AddEventHandler('bccblindfold:blindfolditem', function()
+    selfblinded = false
+    local closestPlayer, closestDistance = GetClosestPlayer()
+    if closestPlayer.client ~= -1 and closestDistance <= 3.0 then
+        TriggerServerEvent('bccblindfold:toggleblindfold', closestPlayer.server, true)
+    end
+end)
+
+if Config.blindfoldcommand then
+    RegisterCommand("blindfold", function(source, args, rawCommand)
+        selfblinded = false
+        local closestPlayer, closestDistance = GetClosestPlayer()
+        if closestPlayer.client ~= -1 and closestDistance <= 3.0 then
+            TriggerServerEvent('bccblindfold:toggleblindfold', closestPlayer.server, true)
+        end
+    end, false) 
+end
+
+if Config.blindfoldcommand then
+    RegisterCommand("blindfoldme", function(source, args, rawCommand)
+        selfblinded = true
+        TriggerServerEvent('bccblindfold:toggleblindfold', 'self', true)
+    end, false)
+
+    RegisterCommand("unblindfoldme", function(source, args, rawCommand)
+        if selfblinded then
+            TriggerServerEvent('bccblindfold:toggleblindfold', 'self', false) 
+        end
+    end, false)
+end
 
 RegisterCommand("unblindfold", function(source, args, rawCommand)
     local closestPlayer, closestDistance = GetClosestPlayer()
-    if closestPlayer ~= -1 and closestDistance <= 3.0 then
-        TriggerServerEvent('bccblindfold:toggleblindfold', closestPlayer, false)
+    if closestPlayer.client ~= -1 and closestDistance <= 3.0 then
+        TriggerServerEvent('bccblindfold:toggleblindfold', closestPlayer.server, false)
     end
-end, false)
-
-RegisterCommand("cutblindfold", function(source, args, rawCommand)
-    -- TODO: Randomizer for a small chance to be able to break out of the blindfold
 end, false)
