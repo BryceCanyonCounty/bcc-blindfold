@@ -6,8 +6,8 @@
 - Blindfold yourself!
 - Commands to blindfold
 - Item to blindfold
-- Break out of blindfold change
-- features are all configurable!
+- Chance to break free
+- Features are all configurable!
 
 ## Commands
 * /blindfold
