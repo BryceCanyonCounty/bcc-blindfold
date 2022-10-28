@@ -11,7 +11,7 @@ AddEventHandler('bccblindfold:toggleblindfold', function(player, toggle)
 	local _source = source
 	local passed = true
 	if player ~= nil then
-		if Config.blindfolditem then
+		if Config.blindfolditem and toggle == true then
 			local itemCount = VORPInv.getItemCount(_source, 'blindfold')
 			if itemCount > 0 then
 				VORPInv.subItem(_source, 'blindfold', 1)
