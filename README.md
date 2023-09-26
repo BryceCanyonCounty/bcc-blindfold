@@ -1,4 +1,4 @@
-# BCC-LoadScreen
+# BCC-Blindfold
 > A blindfold script for RedM and VorpCore Framework
 
 ## Features
@@ -29,10 +29,7 @@
 
 
 ## Need More Support? 
-- [Vorp Disord](https://discord.gg/DHGVAbCj7N)
-
-## Requirements
-- [VORP-Core](https://github.com/VORPCORE/VORP-Core/releases)
+- [BCC Discord](https://discord.gg/cQMJaTqcqJ)
 
 ## Coming Soon!
 - api's for other scripts to use (police, criminal, etc)
