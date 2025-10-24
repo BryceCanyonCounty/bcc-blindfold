@@ -1,7 +1,7 @@
 Config = {
 
     devMode = {
-        active = true
+        active = false
     },
     -----------------------------------------------------
 
